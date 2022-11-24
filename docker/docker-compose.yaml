@@ -1,0 +1,11 @@
+version: '2.0'
+services:
+  petstore:
+    image: swaggerapi/petstore
+    ports:
+      - 88:8080
+    restart: always
+    environment:
+      - SWAGGER_HOST=http://petstore.swagger.io
+      - SWAGGER_URL=https://10.1.10.200
+      - SWAGGER_BASE_PATH=/v2

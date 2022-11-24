@@ -1,0 +1,126 @@
+# Variables
+@contentType = application/json
+@as_path = /mgmt/shared/appsvcs/declare
+@auth = Basic admin:UfoPorno5!
+@big-ip = 10.1.1.245
+
+### Deploy APP
+POST https://{{big-ip}}/{{as_path}} HTTP/1.1
+content-type: {{contentType}}
+Authorization: {{auth}}
+
+{
+  "class": "AS3",
+  "action": "deploy",
+  "persist": true,
+  "declaration": {
+    "class": "ADC",
+    "schemaVersion": "3.2.0",
+    "id": "Prod_API_AS3",
+    "petstore-prod": {
+      "class": "Tenant",
+      "defaultRouteDomain": 0,
+      "API": {
+        "class": "Application",
+        "template": "generic",
+        "VS_API_petstore": {
+          "class": "Service_HTTPS",
+          "remark": "Accepts HTTPS/TLS connections on port 443",
+          "virtualAddresses": ["10.1.10.200"],
+          "redirect80": true,
+          "pool": "pool_petstore",
+          "profileTCP": {
+            "egress": "wan",
+            "ingress": { "use": "TCP_Profile" } },
+          "profileHTTP": { "use": "custom_http_profile" },
+          "serverTLS": { "bigip": "/Common/clientssl" }
+        },
+        "pool_petstore": {
+          "class": "Pool",
+          "monitors": ["http"],
+          "members": [{
+            "servicePort": 88,
+            "serverAddresses": ["10.1.10.1"]
+          }]
+        },
+        "custom_http_profile": {
+          "class": "HTTP_Profile",
+          "xForwardedFor": true
+        },
+        "TCP_Profile": {
+          "class": "TCP_Profile",
+          "idleTimeout": 60 }
+      }
+    }
+  }
+}
+
+### Deploy WAF Policy
+POST https://{{big-ip}}/{{as_path}} HTTP/1.1
+content-type: {{contentType}}
+Authorization: {{auth}}
+
+{
+  "class": "AS3",
+  "action": "deploy",
+  "persist": true,
+  "declaration": {
+    "class": "ADC",
+    "schemaVersion": "3.2.0",
+    "id": "Prod_API_AS3",
+    "petstore-prod": {
+      "class": "Tenant",
+      "defaultRouteDomain": 0,
+      "API": {
+        "class": "Application",
+        "template": "generic",
+        "VS_API_petstore": {
+          "class": "Service_HTTPS",
+          "remark": "Accepts HTTPS/TLS connections on port 443",
+          "virtualAddresses": ["10.1.10.200"],
+          "redirect80": true,
+          "pool": "pool_petstore",
+          "policyWAF": {
+            "use": "policy-api-petstore"
+          },
+          "securityLogProfiles": [{
+            "bigip": "/Common/Log all requests"
+          }],
+          "profileTCP": {
+            "egress": "wan",
+            "ingress": { "use": "TCP_Profile" } },
+          "profileHTTP": { "use": "custom_http_profile" },
+          "serverTLS": { "bigip": "/Common/clientssl" }
+        },
+        "policy-api-petstore": {
+          "class": "WAF_Policy",
+          "url": "http://10.1.1.1:8282/policy-api-petstore.json",
+          "ignoreChanges": true
+        },
+        "pool_petstore": {
+          "class": "Pool",
+          "monitors": ["http"],
+          "members": [{
+            "servicePort": 88,
+            "serverAddresses": ["10.1.10.1"]
+          }]
+        },
+        "custom_http_profile": {
+          "class": "HTTP_Profile",
+          "xForwardedFor": true
+        },
+        "TCP_Profile": {
+        "class": "TCP_Profile",
+        "idleTimeout": 60 }
+      }
+    }
+  }
+}
+
+### Delete App
+DELETE https://{{big-ip}}/{{as_path}} HTTP/1.1
+content-type: {{contentType}}
+Authorization: {{auth}}
+
+
+###
