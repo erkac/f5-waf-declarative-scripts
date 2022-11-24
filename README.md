@@ -137,3 +137,6 @@ export PETSTORE_VS=10.1.10.200
 
     
 
+## Disclaimer
+
+This demo is provided as is. Use it at your own responsibility.
