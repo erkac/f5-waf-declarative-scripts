@@ -59,13 +59,9 @@ export PETSTORE_VS=10.1.10.200
 
 1. Request the whole web in the browser [https://10.1.10.200/](https://10.1.10.200)
 1. Demo an Application Attack:
-	
-	```bash
-	curl -vksX GET "https://{PETSTORE_VS}/v2/user/login?username=\' or 1=1;--&password=test" -H  "accept: application/json"
-	```
 
     ```bash
-   curl -vksX GET "https://{PETSTORE_VS}/v2/user/login?username=%27%20or%201%3D1%3B--%26password%3Dtest" -H  "accept: application/json"
+   curl -vksX GET "https://${PETSTORE_VS}/v2/user/login?username=%27%20or%201%3D1%3B--%26password%3Dtest" -H  "accept: application/json"
     ```
 
 ### AWAF Demo
@@ -83,24 +79,24 @@ export PETSTORE_VS=10.1.10.200
 1. `findByStatus` - find available pets
 
     ```bash
-    curl -ksX GET "https://{PETSTORE_VS}/v2/pet/findByStatus?status=available" -H  "accept: application/json" | jq
+    curl -ksX GET "https://${PETSTORE_VS}/v2/pet/findByStatus?status=available" -H  "accept: application/json" | jq
     ```
 1. `petId` - check the pet
 
     ```bash
-    curl -ksX GET "https://{PETSTORE_VS}/v2/pet/7" -H  "accept: application/json" | jq
+    curl -ksX GET "https://${PETSTORE_VS}/v2/pet/7" -H  "accept: application/json" | jq
     ```
 
 1. Place Order
 
     ```bash
-    curl -ksX POST "https://{PETSTORE_VS}/v2/store/order" -H  "accept: application/json" -H  "Content-Type: application/json" -d "{  \"id\": 0,  \"petId\": 7,  \"quantity\": 1,  \"shipDate\": \"2020-08-18T10:10:30.747Z\",  \"status\": \"placed\",  \"complete\": true}" | jq
+    curl -ksX POST "https://${PETSTORE_VS}/v2/store/order" -H  "accept: application/json" -H  "Content-Type: application/json" -d "{  \"id\": 0,  \"petId\": 7,  \"quantity\": 1,  \"shipDate\": \"2020-08-18T10:10:30.747Z\",  \"status\": \"placed\",  \"complete\": true}" | jq
     ```
 
 1. Check the Order (update the `orderId` with the output from previous example)
 
     ```bash
-    curl -ksX GET "https://{PETSTORE_VS}/v2/store/order/14" -H  "accept: application/json" | jq
+    curl -ksX GET "https://${PETSTORE_VS}/v2/store/order/14" -H  "accept: application/json" | jq
     ```
 
 #### Attacks
@@ -108,34 +104,33 @@ export PETSTORE_VS=10.1.10.200
 1. Invalid option
 
     ```bash
-    curl -ksX POST "https://{PETSTORE_VS}/v2/store/order" -H  "accept: application/json" -H  "Content-Type: application/json" -d "{  \"id\": 0,  \"petId\": 7,  \"quantity\": 1,  \"shipDate\": \"2020-08-18T10:10:30.747Z\",  \"status\": \"paid\",  \"complete\": true}" | jq
+    curl -ksX POST "https://${PETSTORE_VS}/v2/store/order" -H  "accept: application/json" -H  "Content-Type: application/json" -d "{  \"id\": 0,  \"petId\": 7,  \"quantity\": 1,  \"shipDate\": \"2020-08-18T10:10:30.747Z\",  \"status\": \"paid\",  \"complete\": true}" | jq
     ```
 
 1. Missing parameter
 
     ```bash
-    curl -ksX GET "https://{PETSTORE_VS}/v2/user/login?username=admin" -H  "accept: application/json" | jq
+    curl -ksX GET "https://${PETSTORE_VS}/v2/user/login?username=admin" -H  "accept: application/json" | jq
     ```
 
 1. SQLi
 
     URL:
     ```bash
-    "https://{PETSTORE_VS}/v2/user/login?username=' or 1=1;--&password=test"
+    "https://${PETSTORE_VS}/v2/user/login?username=' or 1=1;--&password=test"
     ```
 
     Encoded version:
     ```bash
-    curl -ksX GET "https://{PETSTORE_VS}/v2/user/login?username=%27%20or%201%3D1%3B--%26password%3Dtest" -H  "accept: application/json" | jq
+    curl -ksX GET "https://${PETSTORE_VS}/v2/user/login?username=%27%20or%201%3D1%3B--%26password%3Dtest" -H  "accept: application/json" | jq
     ```
 
 1. XSS
 
     ```bash
-    curl -ksX GET "https://{PETSTORE_VS}/v2/user/login/<script>" -H  "accept: application/json" | jq
+    curl -ksX GET "https://${PETSTORE_VS}/v2/user/login/<script>" -H  "accept: application/json" | jq
     ```
 
-    
 
 ## Disclaimer
 
