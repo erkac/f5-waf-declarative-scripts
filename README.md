@@ -11,6 +11,8 @@
 > ...based on the [Swagger PetStore](https://petstore.swagger.io/#/)
 
 ### Steps
+> You have to have AS3 RPM installed on BIG-IP to be able to use declarative API.
+
 1. Start Petstore in *Docker*:
     ```bash
     cd docker
@@ -47,7 +49,7 @@
     ```
 > You can also use `./f5-as3.rest` to do the steps above, directly from _vscode_.
 
-Export the SHELL env variable in order easy reach your BIG-IP VS:
+Export the SHELL `env` variable in order to connect to your BIG-IP VS:
 
 ```bash
 export PETSTORE_VS=10.1.10.200
