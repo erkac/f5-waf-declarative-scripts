@@ -33,7 +33,7 @@
     ./1_deploy_app.sh | jq
     ```
 
-3. Do *LTM Demo* Part
+3. Do *[LTM Demo](#ltm-demo)* Part
 
 4. Deploy app with WAF Policy:
 
