@@ -33,7 +33,7 @@
     ./1_deploy_app.sh | jq
     ```
 
-3. Do *[LTM Demo](#ltm-demo)* Part
+3. Do *[LTM Demo](./README.md#ltm-demo)* Part
 
 4. Deploy app with WAF Policy:
 
@@ -47,21 +47,24 @@
     # Show how AWAF Downloaded policy from Webserver
     ```
 
-5. Do *AWAF Demo* Part
+5. Do *[AWAF Demo](./README.md#awaf-demo)* Part
 
 6. Delete the Deployment:
     ```bash
     ./3_delete_policy.sh | jq
     ```
-> You can also use `./f5-as3.rest` to do the steps above, directly from _vscode_.
+
+
+
+------
+
+> You can also use `./f5-as3.rest` to do the LTM/AWAF steps, directly from _vscode_.
 
 Export the SHELL `env` variable in order to connect to your BIG-IP VS:
 
 ```bash
-export PETSTORE_VS=10.1.10.200
+export PETSTORE_VS="10.1.10.200"
 ```
-
-
 
 ### LTM Demo
 
