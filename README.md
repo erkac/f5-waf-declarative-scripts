@@ -10,6 +10,12 @@
 ## DEMO
 > ...based on the [Swagger PetStore](https://petstore.swagger.io/#/)
 
+
+
+### Diagram
+
+![f5-declarative-waf-diagram](img/README/f5-declarative-waf-diagram.png)
+
 ### Steps
 > You have to have AS3 RPM installed on BIG-IP to be able to use declarative API.
 
@@ -32,7 +38,7 @@
 4. Deploy app with WAF Policy:
 
     ```bash
-    # Start Webserver for serving WAF Policy
+    # Start Webserver for serving WAF Policy (aka SCM/Github form the Diagram)
     # Use another terminal as it runs in foreground
     ./0_start-web-server.sh
     
@@ -64,7 +70,7 @@ export PETSTORE_VS=10.1.10.200
 
     ```bash
    curl -vksX GET "https://${PETSTORE_VS}/v2/user/login?username=%27%20or%201%3D1%3B--%26password%3Dtest" -H  "accept: application/json"
-    ```
+   ```
 
 ### AWAF Demo
 > Use following steps only if you didn't use automation scripts to deploy the policy
